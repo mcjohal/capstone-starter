@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% from "_macros.html" import problem_box %}
+
+{% block content %}
+<header class="hero">
+  <div class="container">
+    <div class="hero-icon mb-3"><i class="bi bi-{{ site.ICON or 'database' }}"></i></div>
+    <h1 class="brand-serif display-5 mb-2">{{ site.SITE_NAME }}</h1>
+    <p class="lead mb-4">{{ site.TAGLINE }}</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a href="{{ url_for('browse') }}" class="btn btn-light"><i class="bi bi-list-ul me-1"></i>Browse {{ site.ITEMS }}</a>
+      <a href="{{ url_for('search') }}" class="btn btn-outline-light"><i class="bi bi-search me-1"></i>Search</a>
+    </div>
+  </div>
+</header>
+
+<section class="container py-5">
+  {% if problem %}
+    {{ problem_box(problem) }}
+  {% elif stats %}
+  <div class="row g-3 mb-5">
+    {% for label, value in stats.items() %}
+    <div class="col-6 col-lg-3">
+      <div class="card stat-card h-100 shadow-sm">
+        <div class="card-body text-center">
+          <div class="stat-num">{{ value if value is not none else 0 }}</div>
+          <div class="stat-lbl">{{ label }}</div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row g-4">
+    {% for endpoint, title, icon, text in [
+      ('browse', site.BROWSE_TITLE, 'list-ul', 'See every one of the ' ~ site.ITEMS ~ ', then open any of them for the details.'),
+      ('search', 'Search', 'search', site.SEARCH_HINT ~ '.'),
+      ('report', site.REPORT_TITLE, 'bar-chart', site.REPORT_INTRO),
+      ('add', site.ADD_TITLE, 'plus-circle', 'Try adding a new one. It is temporary and resets when the app restarts.'),
+    ] %}
+    <div class="col-md-6 col-lg-3">
+      <a href="{{ url_for(endpoint) }}" class="card feature-card h-100 shadow-sm text-decoration-none">
+        <div class="card-body">
+          <i class="bi bi-{{ icon }} feature-icon"></i>
+          <h5 class="card-title mt-2">{{ title }}</h5>
+          <p class="card-text small text-muted">{{ text }}</p>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

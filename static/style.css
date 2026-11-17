@@ -1,0 +1,70 @@
+/* Extra styles on top of the Bootswatch Spacelab theme.
+   The colors come from Spacelab's own palette. To change the look, edit
+   the three colors below. */
+
+:root {
+  --deep: #2c4f73;       /* darkest blue, the start of the gradients */
+  --main: #446e9b;       /* Spacelab primary */
+  --light: #6b9bd1;      /* lighter blue, the end of the gradients */
+  --grad: linear-gradient(135deg, var(--deep) 0%, var(--main) 55%, var(--light) 100%);
+}
+
+.brand-serif { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; }
+
+.navbar.bg-primary { background: var(--grad) !important; }
+
+.example-ribbon { background: #fff3cd; color: #664d03; }
+
+/* Home page banner */
+.hero {
+  background: var(--grad);
+  color: #fff;
+  padding: 4rem 0 3.5rem;
+}
+.hero .lead { color: rgba(255, 255, 255, .88); max-width: 680px; }
+.hero-icon {
+  width: 64px; height: 64px; border-radius: 16px;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, .15);
+  font-size: 2rem;
+}
+
+/* Banner at the top of every other page */
+.page-header {
+  background: var(--grad);
+  color: #fff;
+  padding: 2.25rem 0 2rem;
+}
+.page-header .lead { color: rgba(255, 255, 255, .85); max-width: 720px; font-size: 1.05rem; }
+
+/* Home page numbers */
+.stat-card { border: 0; border-top: 4px solid var(--main); }
+.stat-num { font-size: 2.25rem; font-weight: 700; color: var(--main); line-height: 1.1; }
+.stat-lbl { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: #6c757d; }
+
+/* Home page links to each page */
+.feature-card { border: 0; transition: transform .15s ease, box-shadow .15s ease; }
+.feature-card:hover { transform: translateY(-3px); box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .12) !important; }
+.feature-icon { font-size: 1.75rem; color: var(--main); }
+.feature-card .card-title { color: #212529; }
+
+.card { border: 0; border-radius: .75rem; }
+.card.border-danger, .card.border-warning { border: 1px solid; border-left-width: 5px; }
+
+.detail-list dt { color: #6c757d; font-weight: 600; }
+.detail-list dd { margin-bottom: .6rem; }
+
+/* Report bars */
+.report-bar { background: #e9eef5; border-radius: 999px; height: .75rem; overflow: hidden; }
+.report-bar-fill { background: var(--grad); height: 100%; border-radius: 999px; }
+
+.form-width { max-width: 720px; }
+
+.problem-message {
+  background: #2b2b2b; color: #ffd7d7;
+  padding: .75rem 1rem; border-radius: .5rem;
+  white-space: pre-wrap; font-size: .9rem;
+}
+
+.site-footer { background: var(--deep); color: rgba(255, 255, 255, .8); }
+.site-footer a { color: #fff; }

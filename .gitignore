@@ -1,0 +1,14 @@
+# The database is rebuilt from the SQL files every time the app starts,
+# so it never goes to GitHub.
+instance/
+*.db
+
+# Python's virtual environment and cache files
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Editor and system files
+.DS_Store
+Thumbs.db

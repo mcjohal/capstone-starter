@@ -1,0 +1,72 @@
+{# Pieces shared by several pages. #}
+
+{% macro page_header(title, intro=None, icon=None) %}
+<header class="page-header">
+  <div class="container">
+    <h1 class="brand-serif mb-1">{% if icon %}<i class="bi bi-{{ icon }} me-2"></i>{% endif %}{{ title }}</h1>
+    {% if intro %}<p class="lead mb-0">{{ intro }}</p>{% endif %}
+  </div>
+</header>
+{% endmacro %}
+
+
+{# Explains why a page has nothing to show: its SQL file is still empty,
+   or SQLite refused the SQL. Shown only while you are building the site. #}
+{% macro problem_box(problem) %}
+  {% if problem.message is defined %}
+  <div class="card border-danger shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title text-danger"><i class="bi bi-bug me-2"></i>SQLite found a problem</h5>
+      <p class="mb-2">In <code>{{ problem.path }}</code>{% if problem.line %}, in the statement that starts on <strong>line {{ problem.line }}</strong>{% endif %}:</p>
+      <pre class="problem-message mb-2">{{ problem.message }}</pre>
+      <p class="small text-muted mb-0">Fix it in VS Code, save the file, and refresh this page.
+        To test a query by itself, run <code>python try_sql.py {{ problem.path }}</code> in the terminal.</p>
+    </div>
+  </div>
+  {% else %}
+  <div class="card border-warning shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title"><i class="bi bi-hourglass-split me-2 text-warning"></i>This page is waiting for its SQL</h5>
+      <p class="mb-2">Open <code>{{ problem.path }}</code> in VS Code and write the SQL it asks for.
+        The comment at the top of the file says what it needs.</p>
+      <p class="small text-muted mb-0">Save the file and refresh this page. The guide in the docs folder walks through each file in order.</p>
+    </div>
+  </div>
+  {% endif %}
+{% endmacro %}
+
+
+{# Any query result as a table. A column named id is hidden and used to
+   link each row to its detail page. #}
+{% macro results_table(result, id_col=None, empty="No rows.") %}
+  {% if not result.rows %}
+  <p class="text-muted">{{ empty }}</p>
+  {% else %}
+  <div class="table-responsive card shadow-sm">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          {% for col in result.columns if col != id_col %}<th scope="col">{{ col }}</th>{% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in result.rows %}
+        {% set rowmap = dict(zip(result.columns, row)) %}
+        <tr>
+          {% for col in result.columns if col != id_col %}
+          <td>
+            {% if id_col and loop.first %}
+              <a href="{{ url_for('detail', item_id=rowmap[id_col]) }}" class="fw-semibold">{{ rowmap[col] if rowmap[col] is not none }}</a>
+            {% else %}
+              {{ rowmap[col] if rowmap[col] is not none }}
+            {% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="small text-muted mt-2">{{ result.rows|length }} row{{ 's' if result.rows|length != 1 }}</p>
+  {% endif %}
+{% endmacro %}

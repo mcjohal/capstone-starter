@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_header, problem_box, results_table %}
+{% block title %}{{ site.BROWSE_TITLE }} | {{ site.SITE_NAME }}{% endblock %}
+
+{% block content %}
+{{ page_header(site.BROWSE_TITLE, site.BROWSE_INTRO, 'list-ul') }}
+<section class="container py-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endwith %}
+
+  {% if problem %}
+    {{ problem_box(problem) }}
+  {% else %}
+    {% if not id_col %}
+    <div class="alert alert-warning small"><i class="bi bi-exclamation-triangle me-1"></i>
+      list.sql has no column named <code>id</code>, so the rows can't link to their detail pages.
+      Add one, for example <code>SELECT book_id AS id, ...</code></div>
+    {% endif %}
+    {{ results_table(result, id_col, empty="No " ~ site.ITEMS ~ " yet. Add some rows in seed.sql.") }}
+  {% endif %}
+</section>
+{% endblock %}

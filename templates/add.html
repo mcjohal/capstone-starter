@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_header, problem_box %}
+{% block title %}{{ site.ADD_TITLE }} | {{ site.SITE_NAME }}{% endblock %}
+
+{% block content %}
+{{ page_header(site.ADD_TITLE, None, 'plus-circle') }}
+<section class="container py-4 form-width">
+  {% if problem %}
+    {{ problem_box(problem) }}
+  {% elif not fields %}
+    <div class="card border-warning shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-hourglass-split me-2 text-warning"></i>This page is waiting for its form</h5>
+        <p class="mb-0">List the boxes for this form in <code>ADD_FORM</code> in <code>projects/{{ project.name }}/settings.py</code>,
+          then write <code>queries/add.sql</code>. Part 4, Step 11 of the guide shows how.</p>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-info small"><i class="bi bi-info-circle me-1"></i>
+      Rows you add here are temporary. They disappear when the app restarts, which on Render's free tier happens often.</div>
+
+    {% if errors %}
+    <div class="alert alert-danger">
+      <ul class="mb-0">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+
+    <form method="post" class="card shadow-sm">
+      <div class="card-body">
+        {% for field in fields %}
+        {% set fid = 'f_' ~ field.name %}
+        <div class="mb-3">
+          <label for="{{ fid }}" class="form-label fw-semibold">{{ field.label or field.name }}{% if field.required %} <span class="text-danger" aria-hidden="true">*</span>{% endif %}</label>
+          {% if field.type == 'select' %}
+          <select id="{{ fid }}" name="{{ field.name }}" class="form-select" {{ 'required' if field.required }}>
+            <option value="">Choose one</option>
+            {% for option in options.get(field.name, []) %}
+            <option value="{{ option[0] }}" {{ 'selected' if values.get(field.name) == option[0]|string }}>{{ option[1] if option|length > 1 else option[0] }}</option>
+            {% endfor %}
+          </select>
+          {% else %}
+          <input id="{{ fid }}" name="{{ field.name }}" class="form-control"
+                 type="{{ field.type if field.type in ['number', 'date'] else 'text' }}"
+                 {% if field.type == 'number' %}step="any"{% endif %}
+                 value="{{ values.get(field.name, '') }}" {{ 'required' if field.required }}>
+          {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Add</button>
+        <a href="{{ url_for('browse') }}" class="btn btn-outline-secondary ms-1">Cancel</a>
+      </div>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

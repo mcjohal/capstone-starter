@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_header, problem_box, results_table %}
+{% block title %}Search | {{ site.SITE_NAME }}{% endblock %}
+
+{% block content %}
+{{ page_header('Search', site.SEARCH_HINT ~ '.', 'search') }}
+<section class="container py-4">
+  <form method="get" action="{{ url_for('search') }}" class="mb-4" role="search">
+    <div class="input-group input-group-lg">
+      <input type="search" name="q" value="{{ term }}" class="form-control" placeholder="{{ site.SEARCH_HINT }}"
+             aria-label="{{ site.SEARCH_HINT }}" autofocus>
+      <button class="btn btn-primary" type="submit"><i class="bi bi-search me-1"></i>Search</button>
+    </div>
+  </form>
+
+  {% if problem %}
+    {{ problem_box(problem) }}
+  {% elif term %}
+    {{ results_table(result, id_col, empty="Nothing matches that search. Try fewer letters.") }}
+  {% else %}
+    <p class="text-muted">Type a word or part of a word and press Search.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_header, problem_box %}
+{% block title %}{{ site.REPORT_TITLE }} | {{ site.SITE_NAME }}{% endblock %}
+
+{% block content %}
+{{ page_header(site.REPORT_TITLE, site.REPORT_INTRO, 'bar-chart') }}
+<section class="container py-4">
+  {% if problem %}
+    {{ problem_box(problem) }}
+  {% elif not result.rows %}
+    <p class="text-muted">The report has no rows yet.</p>
+  {% else %}
+  <div class="table-responsive card shadow-sm">
+    <table class="table align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          {% for col in result.columns %}<th scope="col">{{ col }}</th>{% endfor %}
+          {% if bar_max %}<th scope="col" class="w-25"><span class="visually-hidden">Bar</span></th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in result.rows %}
+        <tr>
+          {% for value in row %}<td>{{ value if value is not none }}</td>{% endfor %}
+          {% if bar_max %}
+          <td>
+            <div class="report-bar" aria-hidden="true">
+              <div class="report-bar-fill" style="width: {{ ((row[-1] or 0) / bar_max * 100)|round(1) }}%"></div>
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
