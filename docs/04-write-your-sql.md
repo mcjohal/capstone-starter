@@ -33,6 +33,31 @@ The comments are graded.
 2. **List your tables and their columns** on paper. For each table, write its primary key first, then the columns, then which columns are foreign keys.
 3. **Check third normal form.** Every column must describe the key, the whole key, and nothing but the key. If a value would be typed again and again (an author's country in every book row, for example), it belongs in its own table. The class page on normalization at cruzjohal.com/database/normalization has many examples.
 4. **Draw the ER diagram.** Use [draw.io](https://app.diagrams.net/) (free) or draw it neatly on paper and take a photo. Save it in the top folder of your project as **erd.png**.
+
+   **Have Generative AI check your diagram.** Open a generative AI tool such as ChatGPT, Claude, Gemini, or Microsoft Copilot. Upload `erd.png` and paste this prompt:
+
+   ```text
+   I am a database student. This is the ER diagram for my SQLite project about <your topic>.
+   Please check it and list any corrections. For each table, check:
+   1. Does it have a primary key?
+   2. Are the foreign keys correct, and do they point at the right parent table?
+   3. Are the relationships (one to many, many to many) drawn correctly?
+   4. Is it in third normal form? Point out any repeated or misplaced columns.
+   5. Are any tables or columns missing, unneeded, or poorly named?
+   Explain each correction in plain language. Do not redraw the diagram for me.
+   ```
+
+   Then:
+
+   1. **Read every suggestion and decide for yourself.** AI tools make mistakes. Keep the corrections that are right for your topic and skip the ones that are not.
+   2. **Fix your diagram** and save it again as `erd.png`. Update your table list from step 2 to match.
+   3. **Save the AI's corrections as a PDF** named **erd-ai-review.pdf** in the top folder of your project, next to `erd.png`. Include:
+      * the name of the AI tool you used and the date,
+      * the prompt you sent,
+      * the AI's full response (copy and paste it, or print the chat page to PDF), and
+      * a short note in your own words saying which corrections you made and which you skipped, and why.
+
+   To make the PDF, paste everything into a Word or Google Docs document and choose **File > Save as PDF** (Word) or **File > Download > PDF Document** (Google Docs).
 5. **Make up your data.** Use made up names. For emails, use addresses ending in `@example.com`, which is reserved for examples. Never use real people's personal information.
 
 ## Step 1. Switch to your project
@@ -293,7 +318,7 @@ Test it on your Add page by entering a value the trigger should refuse. Its mess
 
 1. Run `python check.py`. Every line should say PASS.
 2. Click through every page one more time, including a search that finds nothing and a detail page.
-3. Put `erd.png` in the top folder of your project.
+3. Put `erd.png` and `erd-ai-review.pdf` in the top folder of your project.
 4. Open `README.md` and fill in the top section: your site's name, a description, your tables, and (after Part 6) your live Render address.
 5. Check that every statement in every SQL file has a comment above it.
 

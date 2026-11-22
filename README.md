@@ -73,6 +73,7 @@ On a Mac, type `python3` instead of `python`.
 - [ ] All seven query files written, and every page working
 - [ ] Search uses the `:term` placeholder (never text pasted into the SQL)
 - [ ] An ER diagram saved as `erd.png` and shown in this README
+- [ ] The Generative AI review of your ER diagram saved as `erd-ai-review.pdf`, next to `erd.png`
 - [ ] **CIS 4720:** at least one view and one trigger
 - [ ] Every SQL statement has a short comment above it, in your own words
 - [ ] The top of this README filled in
